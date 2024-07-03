@@ -9,6 +9,9 @@ export default function DashSidebar() {
 
   const [tab , setTab] = useState('');
 
+
+  // useEffect be like :- jab jab aisa hoga , tab tab mai ye karunga
+
   useEffect(() => {
 
       const urlParams = new URLSearchParams(location.search);
@@ -29,15 +32,15 @@ export default function DashSidebar() {
             <Sidebar.ItemGroup>
 
                 <Link to='/dashboard?tab=profile'>
-                    <Sidebar.Item active = {tab === 'profile'} icon = {HiUser} label = {"User"} labelColor = 'dark'>
+                    <Sidebar.Item active = {tab === 'profile'} icon = {HiUser} label = {"User"} labelColor = 'dark' as = 'div'>
                         Profile
                     </Sidebar.Item>
                 </Link>
 
-                <Sidebar.Item icon = {HiArrowSmRight} classname = 'cursor-pointer'>
+                <Sidebar.Item icon = {HiArrowSmRight} className = 'cursor-pointer'>
                     Sign Out
                 </Sidebar.Item>
-                
+
             </Sidebar.ItemGroup>
         </Sidebar.Items>
     </Sidebar>
