@@ -60,7 +60,8 @@ export const signin = async(req , res , next) => {
 
         const token = jwt.sign(
             {
-                id : validUser._id
+                id : validUser._id,
+                isAdmin : validUser.isAdmin
             },
             process.env.JWT_SECRET
         );
@@ -94,7 +95,8 @@ export const google = async(req , res , next) => {
             {
                 const token = jwt.sign(                            // token part is must to sign in after we successfully create the user
                     {
-                        id : user._id
+                        id : user._id,
+                        isAdmin : user.isAdmin
                     },
                     process.env.JWT_SECRET
                 );
@@ -127,7 +129,8 @@ export const google = async(req , res , next) => {
 
                 const token = jwt.sign(
                     {
-                        id : newUser._id
+                        id : newUser._id,
+                        isAdmin : newUser.isAdmin
                     },
                     process.env.JWT_SECRET
                 );
