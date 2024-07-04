@@ -5,13 +5,30 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon , FaSun } from 'react-icons/fa';
 import { useSelector , useDispatch } from 'react-redux';                   // how we will know that the person is authenticated or not  , we can just get the info from redux-toolkit using this method
 import { toggleTheme } from '../redux/theme/themeSlice.js';
+import { signoutSuccess } from '../redux/user/userSlice.js';
 
 export default function Header() {
   
     const path = useLocation().pathname;
     const {currentUser} = useSelector((state) => state.user);
     const {theme} = useSelector((state) => state.theme)                    // we wanted to know which theme is currently set
-    const dispatch = useDispatch();                 
+    const dispatch = useDispatch();          
+    
+    const handleSignout = async () => {
+      try {
+        const res = await fetch('/api/user/signout', {
+          method: 'POST',
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          console.log(data.message);
+        } else {
+          dispatch(signoutSuccess());
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
   return (
     <Navbar className='border-b-2'>
@@ -55,7 +72,7 @@ export default function Header() {
                     <Dropdown.Item>Profile</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
-                <Dropdown.Item>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
             </Dropdown>
         ) : 
           (
