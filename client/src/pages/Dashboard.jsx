@@ -23,6 +23,8 @@ export default function Dashboard() {
 
   } , [location.search])                         // anytime this location.search changes , we want to render this useEffect
 
+  console.log('Current tab:', tab);
+
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
 
@@ -34,7 +36,6 @@ export default function Dashboard() {
         {/* Profile */}
         {tab === 'profile' && <DashProfile />}
 
-        {/ *Posts */}
         {tab === 'posts' && <DashPost />}
         
     </div>
