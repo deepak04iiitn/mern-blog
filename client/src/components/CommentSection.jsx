@@ -1,13 +1,15 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Comment from './Comment';
 
 export default function CommentSection({postId}) {
 
     const {currentUser} = useSelector((state) => state.user);
     const [comment , setComment] = useState('');
     const [commentError , setCommentError] = useState(null);
+    const [comments , setComments] = useState([]);
 
     const handleSubmit = async(e) => {
 
@@ -35,12 +37,37 @@ export default function CommentSection({postId}) {
             {
                 setComment('');
                 setCommentError(null);
+                setComments([data , ...comments]);
             }
 
         } catch (error) {
             setCommentError(error.message);
         }
     }
+
+    useEffect(() => {
+
+        const getComments = async () => {
+
+            try {
+
+                const res = await fetch(`/api/comment/getPostComments/${postId}`);
+
+                if(res.ok)
+                {
+                    const data = await res.json();
+                    setComments(data);
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+        getComments();
+
+    } , [postId])                      // if the postId changes , we want to get the comments
 
   return (
     <div>
@@ -103,7 +130,30 @@ export default function CommentSection({postId}) {
                 )}
 
             </form>
+      )}
 
+      {comments.length === 0 ? (
+            <p className='text-sm my-5'>No comments yet!</p>
+      ) : (
+            <>                                                                                   {/* we cannot add 2 things here , that's why we add an empty fragment */}
+                <div className='text-sm my-5 flex items-center gap-1'>
+                    <p>Comments</p>
+
+                    <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+                        <p>{comments.length}</p>
+                    </div>
+                </div>
+
+                {
+                    comments.map(comment => (
+                        <Comment 
+                            key={comment._id}
+                            comment = {comment} 
+                        />
+                    ))
+                }
+
+            </>
       )}
     </div>
   )
