@@ -73,16 +73,23 @@ export default function CommentSection({postId}) {
 
 
     const handleLike = async (commentId) => {
+
         try {
-          if (!currentUser) {
+
+          if (!currentUser) 
+          {
             navigate('/sign-in');
             return;
           }
+
           const res = await fetch(`/api/comment/likeComment/${commentId}`, {
             method: 'PUT',
           });
-          if (res.ok) {
+
+          if (res.ok) 
+        {
             const data = await res.json();
+
             setComments(
               comments.map((comment) =>
                 comment._id === commentId
@@ -94,11 +101,22 @@ export default function CommentSection({postId}) {
                   : comment
               )
             );
-          }
+        }
+
         } catch (error) {
           console.log(error.message);
         }
       };
+
+      
+      const handleEdit = async (comment, editedContent) => {
+        setComments(
+          comments.map((c) =>
+            c._id === comment._id ? { ...c, content: editedContent } : c
+          )
+        );
+      };
+    
 
   return (
     <div>
@@ -182,6 +200,7 @@ export default function CommentSection({postId}) {
                             comment = {comment} 
                             onLike = {handleLike}                        // passing the function as prop
                                                                          // now we can use this function in comment
+                            onEdit={handleEdit}
                         />
                     ))
                 }
