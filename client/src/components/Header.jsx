@@ -79,17 +79,15 @@ export default function Header() {
               type='text'
               placeholder='Search...'
               rightIcon={AiOutlineSearch}
-              className='hidden lg:inline'
+              className='w-20 lg:inline'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
           />
       </form>
-      <Button className='w-12 h-10 lg:hidden' color='gray' pill>
-          <AiOutlineSearch />
-      </Button>
+      
 
       <div className='flex gap-2 md:order-2'>
-        <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}> 
+        <Button className='w-12 h-10  sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}> 
             {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
 
@@ -100,6 +98,7 @@ export default function Header() {
                   alt='user'
                   img={currentUser.profilePicture}
                   rounded
+                  className='w-10 h-10'
               />
             }>
                 <Dropdown.Header>
@@ -127,15 +126,13 @@ export default function Header() {
       </div>
 
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={'div'}>
-          <Link to='/'>Home</Link>
+        <Navbar.Link href="/">
+          Home
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={'div'}>
-          <Link to='/about'>About</Link>
+        <Navbar.Link href="/about">
+          About
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={'div'}>
-          <Link to='/projects'>Projects</Link>
-        </Navbar.Link>
+        <Navbar.Link href="/projects">Projects</Navbar.Link>
       </Navbar.Collapse>
 
     </Navbar>
